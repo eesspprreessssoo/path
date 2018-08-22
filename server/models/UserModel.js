@@ -14,20 +14,24 @@ const UserModel = new Schema({
   paths: [{ type: Schema.Types.ObjectId, ref: 'Path' }],
 });
 
-UserModel.pre('save', (next) => {
-  let user = this;
-  console.log('this', this);
-  if (!user.isModified('password')) return next();
-  bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
-    if (err) return next(err);
-
-    bcrypt.hash(user.password, salt, (err, hash) => {
-      if (err) return next(err);
-      user.password = hash;
-      next();
-    });
-  });
+UserModel.virtual('fullName').get(() => {
+  return `${this.firstName} ${this.lastName}`;
 });
+
+// UserModel.pre('save', (next) => {
+//   let user = this;
+//   console.log('this', this);
+//   if (!user.isModified('password')) return next();
+//   bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
+//     if (err) return next(err);
+
+//     bcrypt.hash(user.password, salt, (err, hash) => {
+//       if (err) return next(err);
+//       user.password = hash;
+//       next();
+//     });
+//   });
+// });
 
 UserModel.methods.comparePassword = (userPassword, next) => {
   bcrypt.compare(userPassword, this.password, (err, match) => {
