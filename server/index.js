@@ -28,16 +28,15 @@ app.use(express.static(publicPath));
 app.use(cookieParser());
 
 // USER ROUTES
-app.get('/getusers', UserController.getusers);
 app.post('/signup', UserController.signup);
 app.post('/login', UserController.login);
 app.post('/logout', UserController.logout);
 
 // PATH ROUTES
-app.get('/paths/:id', UserController.checkUserAuth, PathController.getPathById);
 app.post('/paths', UserController.checkUserAuth, PathController.addPath);
-app.delete('/paths/:id', UserController.checkUserAuth, PathController.deletePath);
 app.get('/paths', UserController.checkUserAuth, PathController.getPaths);
+app.get('/paths/:id', UserController.checkUserAuth, PathController.getPathById);
+app.delete('/paths/:id', UserController.checkUserAuth, PathController.deletePath);
 
 app.get('/', (req, res) => res.sendFile(path.join(publicPath, 'index.html')));
 

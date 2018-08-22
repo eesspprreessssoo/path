@@ -30,7 +30,6 @@ const UserController = {
         }
       });
   },
-
   login: (req, res) => {
     const { username, password } = req.body;
     User.findOne({
@@ -49,12 +48,10 @@ const UserController = {
         res.status(400).send(`User create failed: ${err}`);
       });
   },
-
   logout: (req, res) => {
     res.clearCookie('usertoken', { maxAge: 900000, httpOnly: true });
     res.send('User Logged Out');
   },
-
   checkUserAuth: (req, res, next) => {
     const token = req.cookies.usertoken;
     if (!token) return res.status(403).send('No user token provided.');
