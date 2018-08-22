@@ -55,17 +55,10 @@ const UserController = {
     res.send('User Logged Out');
   },
 
-  getusers: (req, res) => {
-    User.find({}, (err, users) => {
-      if (err) return res.status(404).send('Unable to locate users');
-      return res.json(users);
-    });
-  },
-
   checkUserAuth: (req, res, next) => {
     const token = req.cookies.usertoken;
     if (!token) return res.status(403).send('No user token provided.');
-    jwt.verify(token, JWT_SECRET, function (err, user) {
+    jwt.verify(token, JWT_SECRET, (err, user) => {
       if (err) {
         return res.status(401).json({
           success: false,
@@ -73,6 +66,7 @@ const UserController = {
         });
       } else {
         req.user = user;
+        res.locals.user = user;
         next();
       }
     });
