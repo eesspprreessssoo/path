@@ -8,6 +8,10 @@ const cookieParser = require('cookie-parser');
 const UserController = require('./controllers/UserController');
 const PathController = require('./controllers/PathController');
 
+//Adding Passport for GitHub OAuth
+const passport = require('passport');
+const passportConfig = require('./passport.js');
+
 const app = express();
 const publicPath = path.join(__dirname, '..', 'public', 'dist');
 const PORT = process.env.PORT || 8080;
@@ -26,6 +30,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(publicPath));
 app.use(cookieParser());
+
+//Adding Passport to Express
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Set up routes for OAuth portion of application:
+app.get('/account', passportConfig.isAuthenticated, UserController.getAccount);
+app.get('/account/unlink/:provider', passportConfig.isAuthenticated, UserController.getOauthUnlink);
+app.get('/api/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getGithub);
+
+app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+  //Not sure where to redirect this route to:
+  res.redirect(req.session.returnTo || '/');
+});
 
 // USER ROUTES
 app.post('/signup', UserController.signup);
