@@ -4,18 +4,23 @@ const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 
 const UserModel = new Schema({
-  username: { type: String, required: true },
+  username: { type: String },
   firstName: { type: String },
   lastName: { type: String },
-  email: { type: String },
+  email: { type: String, required: true },
   password: { type: String, required: true },
   createdDate: { type: Date, default: Date.now },
   lastUpdatedDate: { type: Date, default: Date.now },
   paths: [{ type: Schema.Types.ObjectId, ref: 'Path' }],
 });
 
+UserModel.virtual('fullName').get(() => {
+  return `${this.firstName} ${this.lastName}`;
+});
+
 // UserModel.pre('save', (next) => {
 //   let user = this;
+//   console.log('this', this);
 //   if (!user.isModified('password')) return next();
 //   bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
 //     if (err) return next(err);
