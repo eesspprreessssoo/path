@@ -7,17 +7,17 @@ export const addPath = path => ({
   payload: path,
 });
 
-export const updateStatus = (pathId, status) => ({
+export const updateStatus = (pathId, status, lastUpdated) => ({
   type: types.UPDATE_STATUS,
-  payload: { pathId, status },
+  payload: { pathId, status, lastUpdated },
 });
 
-export const updateNotes = (pathId, note) => ({
+export const updateNotes = (pathID, notes) => ({
   type: types.UPDATE_NOTES,
-  payload: { pathId, note },
+  payload: { pathID, notes },
 });
 
-export const deletepath = (pathIndex) => ({
+export const deletePath = (pathIndex) => ({
   type: types.DELETE_PATH,
   payload: pathIndex,
 })

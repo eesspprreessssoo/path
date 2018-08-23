@@ -2,17 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import UserDisplay from '../components/UserDisplay.jsx';
 import PathContainer from './PathContainer.jsx';
+import * as actions from '../actions/actions.js'
 
 const mapStateToProps = state => ({
-  name: state.user.name;
-  pathCount: state.paths.length;
+  name: state.paths.user.name,
+  pathCount: state.paths.pathList.length,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = {
 
-})
+}
 
-const MainContainer = ({}) => {
+const MainContainer = ({name, pathCount}) => {
   return (
     <div id="main-container">
       <UserDisplay name={name} pathCount={pathCount} />

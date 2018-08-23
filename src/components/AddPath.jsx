@@ -8,6 +8,7 @@ class AddPath extends Component {
       position: '',
       notes: ''
     }
+    this.submit = this.submit.bind(this)
   }
 
   submit() {
@@ -15,11 +16,12 @@ class AddPath extends Component {
       id: this.props.serial,
       company: this.state.company,
       position: this.state.position,
-      status: [],
+      status: ['Watching'],
       notes: this.state.notes,
       lastUpdated: new Date(),
       followUp: ""
     }
+    console.log(path);
     this.props.addPath(path);
     this.setState({
       company: '',
@@ -31,9 +33,16 @@ class AddPath extends Component {
   render() {
     return (
       <div id="add-path">
-        <span>Company</span><input type="text" value={this.state.company} onChange={e => {this.setState({company: e.target.value})}} />
-        <span>Position</span><input type="text" value={this.state.position} onChange={e => {this.setState({position: e.target.value})}} />
-        <span>Notes</span><input type="text" value={this.state.notes} onChange={e => {this.setState({notes: e.target.value})}} />
+        <span><strong>Add a New Path!</strong></span>
+        <div>
+          <span>Company</span><input type="text" value={this.state.company} onChange={e => {this.setState({company: e.target.value})}} />
+        <div>
+        </div>
+          <span>Position</span><input type="text" value={this.state.position} onChange={e => {this.setState({position: e.target.value})}} />
+        <div>
+        </div>
+          <span>Notes</span><input type="text" value={this.state.notes} onChange={e => {this.setState({notes: e.target.value})}} />
+        </div>
         <button type="button" onClick={this.submit}>Submit</button>
       </div>
     )

@@ -1,7 +1,9 @@
 import * as types from '../constants/actionTypes';
 
 const initialState = {
-  user: {},
+  user: {
+    name: 'User',
+  },
   pathList: [],
   serial: 0,
 };
@@ -27,7 +29,7 @@ const pathReducer = (state=initialState, action) => {
     case types.ADD_PATH: 
       serial = state.serial + 1; 
       // create new path object from provided data
-      const newPath = { path: action.payload };
+      const newPath = action.payload;
       
       // push new path onto copy of path list
       pathList = state.pathList.slice();
@@ -40,10 +42,10 @@ const pathReducer = (state=initialState, action) => {
       };
     
     case types.UPDATE_NOTES: 
-      const { note, pathId } = action.payload;
+      const { notes, pathID } = action.payload;
       pathList = state.pathList.map(path => {
-        if (path.id === pathId) {
-          return { ...path, note };
+        if (path.id === pathID) {
+          return { ...path, notes };
         }
         return path;
       });
@@ -54,11 +56,11 @@ const pathReducer = (state=initialState, action) => {
       };
 
     case types.UPDATE_STATUS: 
-      const { status, pathId } = action.payload;
+      const { status, lastUpdated, pathId } = action.payload;
 
       pathList = state.pathList.map(path => {
         if (path.id === pathId) {
-          return { ...path, status };
+          return { ...path, lastUpdated, status };
         }
         return path; 
       });

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/eesspprreessssoo/path#readme",
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "bcrypt": "^3.0.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
