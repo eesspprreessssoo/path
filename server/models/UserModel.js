@@ -7,10 +7,21 @@ const UserModel = new Schema({
   username: { type: String },
   firstName: { type: String },
   lastName: { type: String },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   createdDate: { type: Date, default: Date.now },
   lastUpdatedDate: { type: Date, default: Date.now },
+  OAuthID: { type: String },
+  phone: {
+    type: String,
+    validate: {
+      validator: (v) => {
+        return /\d{3}-\d{3}-\d{4}/.test(v);
+      },
+      message: props => `${props.value} is not a valid phone number!`
+    },
+    required: [true, 'User phone number required']
+  },
   paths: [{ type: Schema.Types.ObjectId, ref: 'Path' }],
 });
 
